@@ -30,23 +30,21 @@ jobs:
       run: |
         git checkout origin/gh-pages index.yaml
 
-    - name: Import GPG key
-      run: |
-        IFS=""
-        echo "$PGP_PRIVATE_KEY" | gpg --dearmor > $HOME/secring.gpg
-        echo "$PGP_PASSPHRASE" > $HOME/passphrase.txt
+    # - name: Import GPG key
+    #   run: |
+    #     IFS=""
+    #     echo "$PGP_PRIVATE_KEY" | gpg --dearmor > $HOME/secring.gpg
+    #     echo "$PGP_PASSPHRASE" > $HOME/passphrase.txt
 
-        # Tell chart-releaser-action where to find the key and its passphrase
-        echo "CR_KEYRING=$HOME/secring.gpg" >> "$GITHUB_ENV"
-        echo "CR_PASSPHRASE_FILE=$HOME/passphrase.txt" >> "$GITHUB_ENV"
-      env:
-        PGP_PRIVATE_KEY: "${{ secrets.PGP_PRIVATE_KEY }}"
-        PGP_PASSPHRASE: "${{ secrets.PGP_PASSPHRASE }}"
+    #     # Tell chart-releaser-action where to find the key and its passphrase
+    #     echo "CR_KEYRING=$HOME/secring.gpg" >> "$GITHUB_ENV"
+    #     echo "CR_PASSPHRASE_FILE=$HOME/passphrase.txt" >> "$GITHUB_ENV"
+    #   env:
+    #     PGP_PRIVATE_KEY: "${{ secrets.PGP_PRIVATE_KEY }}"
+    #     PGP_PASSPHRASE: "${{ secrets.PGP_PASSPHRASE }}"
 
     - name: Release charts
       uses: helm/chart-releaser-action@v1.6.0
-      with:
-        config: "./.github/configs/cr.yaml"
       env:
         CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
