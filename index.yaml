@@ -1,0 +1,25 @@
+apiVersion: v1
+entries:
+  nginx-test-1:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-03-06T10:02:48.010691053Z"
+    description: A Helm chart for Kubernetes
+    digest: eef5c4f02691c5eeb9aa413cc40829de2720130bca355fce674fdcaf463d9ac4
+    name: nginx-test-1
+    type: application
+    urls:
+    - https://github.com/pasasageyo18/testing/releases/download/nginx-test-1-2.1.0/nginx-test-1-2.1.0.tgz
+    version: 2.1.0
+  nginx-test-2:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-03-06T10:02:48.197829374Z"
+    description: A Helm chart for Kubernetes
+    digest: c38336b925a2c618d3dafa3272b189869f3891e507815cf15df106685600c54a
+    name: nginx-test-2
+    type: application
+    urls:
+    - https://github.com/pasasageyo18/testing/releases/download/nginx-test-2-3.1.0/nginx-test-2-3.1.0.tgz
+    version: 3.1.0
+generated: "2024-03-06T10:02:48.197835065Z"
