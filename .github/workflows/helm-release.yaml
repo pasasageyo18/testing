@@ -41,8 +41,6 @@ jobs:
           IFS=""
           echo "$PGP_PRIVATE_KEY" | gpg --dearmor > $HOME/secring.gpg
           echo "$PGP_PASSPHRASE" > $HOME/passphrase.txt
-
-          # Tell chart-releaser-action where to find the key and its passphrase
           echo "CR_KEYRING=$HOME/secring.gpg" >> "$GITHUB_ENV"
           echo "CR_PASSPHRASE_FILE=$HOME/passphrase.txt" >> "$GITHUB_ENV"
         env:
