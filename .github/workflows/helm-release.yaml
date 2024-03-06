@@ -12,15 +12,15 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install Helm
+      uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3.5
+      with:
+        version: v3.10.1 # Also update in lint-and-test.yaml
+
     - name: Configure Git
       run: |
-        git config user.name 'github-actions[bot]'
-        git config user.email 'github-actions[bot]@users.noreply.github.com'
-
-    - name: Set up Helm Chart
-      uses: azure/setup-helm@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
     
     - name: Add dependency chart repos
       run: |
@@ -32,16 +32,20 @@ jobs:
 
     - name: Import GPG key
       run: |
-        echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor --output ./keyring.gpg
-        echo "${{ secrets.PGP_PASSPHRASE }}" >> ./passphrase-file.txt
+        IFS=""
+        echo "$PGP_PRIVATE_KEY" | gpg --dearmor > $HOME/secring.gpg
+        echo "$PGP_PASSPHRASE" > $HOME/passphrase.txt
+
+        # Tell chart-releaser-action where to find the key and its passphrase
+        echo "CR_KEYRING=$HOME/secring.gpg" >> "$GITHUB_ENV"
+        echo "CR_PASSPHRASE_FILE=$HOME/passphrase.txt" >> "$GITHUB_ENV"
+      env:
+        PGP_PRIVATE_KEY: "${{ secrets.PGP_PRIVATE_KEY }}"
+        PGP_PASSPHRASE: "${{ secrets.PGP_PASSPHRASE }}"
 
     - name: Release charts
       uses: helm/chart-releaser-action@v1.6.0
       with:
         config: "./.github/configs/cr.yaml"
       env:
-        CR_KEY: "Muhammad Nur Faza" <gofar222@gmail.com>
-        CR_KEYRING: keyring.gpg
-        CR_PASSPHRASE_FILE: passphrase-file.txt
-        CR_SIGN: true
         CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
