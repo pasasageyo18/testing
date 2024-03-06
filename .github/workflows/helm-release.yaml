@@ -23,7 +23,7 @@ jobs:
         echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor --output /home/runner/.gnupg/pubring.gpg
         echo "${{ secrets.PASSPHRASE }}" > passphrase-file.txt
 
-    - name: Set up Helm
+    - name: Set up Helm Chart
       uses: azure/setup-helm@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
