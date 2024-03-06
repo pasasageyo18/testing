@@ -13,15 +13,17 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+
     - name: Configure Git
       run: |
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
+    
     - name: Import GPG key
       run: |
         echo $HOME/
-        echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor --output /home/runner/.gnupg/pubring.gpg
-        echo "${{ secrets.PASSPHRASE }}" > passphrase-file.txt
+        echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor > $HOME/.gnupg/pubring.gpg
+        echo "${{ secrets.PASSPHRASE }}" > $HOME/passphrase-file.txt
 
     - name: Set up Helm Chart
       uses: azure/setup-helm@v3
