@@ -48,9 +48,7 @@ jobs:
           PGP_PASSPHRASE: "${{ secrets.PGP_PASSPHRASE }}"
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@a917fd15b20e8b64b94d9158ad54cd6345335584
-        with:
-          config: "./.github/configs/cr.yaml"
+        uses: helm/chart-releaser-action@v1.3.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_KEYRING: $HOME/secring.gpg
