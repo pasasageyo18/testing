@@ -21,9 +21,9 @@ jobs:
     
     - name: Import GPG key
       run: |
-        echo $HOME/
-        echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor > $HOME/.gnupg/pubring.gpg
-        echo "${{ secrets.PASSPHRASE }}" > $HOME/passphrase-file.txt
+        mkdir $HOME/.gnupg
+        echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor >> $HOME/.gnupg/pubring.gpg
+        echo "${{ secrets.PGP_PASSPHRASE }}" >> $HOME/passphrase-file.txt
 
     - name: Set up Helm Chart
       uses: azure/setup-helm@v3
