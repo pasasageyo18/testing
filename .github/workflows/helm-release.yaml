@@ -3,8 +3,6 @@ on:
   push:
     branches:
     - main
-    paths:
-    - charts/**
 jobs:
   pipeline:
     runs-on: ubuntu-latest
@@ -21,9 +19,8 @@ jobs:
     
     - name: Import GPG key
       run: |
-        mkdir $HOME/.gnupg
-        echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor >> $HOME/.gnupg/pubring.gpg
-        echo "${{ secrets.PGP_PASSPHRASE }}" >> $HOME/passphrase-file.txt
+        echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor --output keyring.gpg
+        echo "${{ secrets.PGP_PASSPHRASE }}" >> passphrase-file.txt
 
     - name: Set up Helm Chart
       uses: azure/setup-helm@v3
@@ -32,7 +29,9 @@ jobs:
 
     - name: Release charts
       uses: helm/chart-releaser-action@v1.4.1
-      with:
-        config: "./.github/configs/cr.yaml"
       env:
+        CR_KEY: InAccel <info@inaccel.com>
+        CR_KEYRING: keyring.gpg
+        CR_PASSPHRASE_FILE: passphrase-file.txt
+        CR_SIGN: true
         CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
