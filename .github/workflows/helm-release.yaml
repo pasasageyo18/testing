@@ -3,8 +3,15 @@ on:
   push:
     branches:
     - main
+
+permissions:
+  contents: read
+  
 jobs:
   pipeline:
+    permissions:
+      contents: write  # for helm/chart-releaser-action to push chart release and create a release
+      packages: write  # to push OCI chart package to GitHub Registry
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
