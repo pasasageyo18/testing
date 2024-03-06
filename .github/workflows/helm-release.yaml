@@ -40,8 +40,5 @@ jobs:
         uses: helm/chart-releaser-action@a917fd15b20e8b64b94d9158ad54cd6345335584
         with:
           config: "./.github/configs/cr.yaml"
-        run: |
-          cr upload --owner Muhammad Nur Faza --git-repo testing --packages-with-index --token ${{ secrets.GITHUB_TOKEN }} --push --skip-existing
-          cr upload --owner Muhammad Nur Faza --git-repo testing --packages-with-index --index-path . --token ${{ secrets.GITHUB_TOKEN }} --push
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
