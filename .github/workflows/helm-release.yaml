@@ -50,8 +50,8 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.3.0
         env:
-          CR_KEYRING: secring.gpg
-          CR_PASSPHRASE_FILE: passphrase.txt
+          CR_KEYRING: ${{ CR_KEYRING }}
+          CR_PASSPHRASE_FILE: ${{ CR_PASSPHRASE_FILE }}
           CR_SIGN: true
           CR_KEY: 'Muhammad Nur Faza' <gofar222@gmail.com>
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
