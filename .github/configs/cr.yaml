@@ -3,7 +3,7 @@ index-path: "./index.yaml"
 
 # PGP signing
 sign: true
-key: Muhammad Nur Faza
+key: gofar222@gmail.com
 # keyring:          # Set via env variable CR_KEYRING
 # passphrase-file:  # Set via env variable CR_PASSPHRASE_FILE
 

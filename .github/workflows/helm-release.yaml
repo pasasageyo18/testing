@@ -29,6 +29,8 @@ jobs:
 
     - name: Release charts
       uses: helm/chart-releaser-action@v1.6.0
+      with:
+        config: "./.github/configs/cr.yaml"
       env:
         CR_KEY: Muhammad Nur Faza <gofar222@gmail.com>
         CR_KEYRING: keyring.gpg
