@@ -30,7 +30,7 @@ jobs:
     - name: Release charts
       uses: helm/chart-releaser-action@v1.4.1
       env:
-        CR_KEY: InAccel <info@inaccel.com>
+        CR_KEY: 'Muhammad Nur Faza' <gofar222@gmail.com>
         CR_KEYRING: keyring.gpg
         CR_PASSPHRASE_FILE: passphrase-file.txt
         CR_SIGN: true
