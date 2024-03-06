@@ -24,7 +24,7 @@ jobs:
     
     - name: Add dependency chart repos
       run: |
-        helm repo add dandydeveloper https://dandydeveloper.github.io/charts/
+        helm repo add testing https://pasasageyo18.github.io/testing/
 
     - name: Fetch current Chart Index
       run: |
