@@ -19,7 +19,7 @@ jobs:
         git config user.email 'github-actions[bot]@users.noreply.github.com'
     - name: Import GPG key
       run: |
-        echo $HOME
+        echo $HOME/
         echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor --output /home/runner/.gnupg/pubring.gpg
         echo "${{ secrets.PASSPHRASE }}" > passphrase-file.txt
 
