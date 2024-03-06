@@ -16,16 +16,24 @@ jobs:
       run: |
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
-    
-    - name: Import GPG key
-      run: |
-        echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor --output ./keyring.gpg
-        echo "${{ secrets.PGP_PASSPHRASE }}" >> ./passphrase-file.txt
 
     - name: Set up Helm Chart
       uses: azure/setup-helm@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Add dependency chart repos
+      run: |
+        helm repo add dandydeveloper https://dandydeveloper.github.io/charts/
+
+    - name: Fetch current Chart Index
+      run: |
+        git checkout origin/gh-pages index.yaml
+
+    - name: Import GPG key
+      run: |
+        echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor --output ./keyring.gpg
+        echo "${{ secrets.PGP_PASSPHRASE }}" >> ./passphrase-file.txt
 
     - name: Release charts
       uses: helm/chart-releaser-action@v1.6.0
