@@ -1,57 +1,35 @@
-name: Release Helm Charts
-
+name: Release
 on:
   push:
     branches:
-      - main
-  
-permissions:
-  contents: read
-
+    - main
+    paths:
+    - charts/**
 jobs:
-  release:
-    permissions:
-      contents: write
-      packages: write
+  pipeline:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-      - name: Install Helm
-        uses: azure/setup-helm@v3
-
-      - name: Add dependency chart repos
-        run: |
-          helm repo add testing https://pasasageyo18.github.io/testing/
-      
-      - name: Fetch current Chart Index
-        run: |
-          git checkout origin/gh-pages index.yaml
-
-      - name: Prepare PGP key
-        run: |
-          IFS=""
-          echo "$PGP_PRIVATE_KEY" | gpg --dearmor > $HOME/secring.gpg
-          echo "$PGP_PASSPHRASE" > $HOME/passphrase.txt
-          echo "CR_KEYRING=$HOME/secring.gpg" >> "$GITHUB_ENV"
-          echo "CR_PASSPHRASE_FILE=$HOME/passphrase.txt" >> "$GITHUB_ENV"
-        env:
-          PGP_PRIVATE_KEY: "${{ secrets.PGP_PRIVATE_KEY }}"
-          PGP_PASSPHRASE: "${{ secrets.PGP_PASSPHRASE }}"
-
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.3.0
-        env:
-          CR_KEYRING: ${{ CR_KEYRING }}
-          CR_PASSPHRASE_FILE: ${{ CR_PASSPHRASE_FILE }}
-          CR_SIGN: true
-          CR_KEY: 'Muhammad Nur Faza' <gofar222@gmail.com>
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Configure Git
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+    - name: Import GPG key
+      run: |
+        echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --dearmor --output keyring.gpg
+        echo "${{ secrets.PASSPHRASE }}" > passphrase-file.txt
+    - name: Set up Helm
+      uses: azure/setup-helm@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Release charts
+      uses: helm/chart-releaser-action@v1.4.1
+      env:
+        CR_KEY: 'Muhammad Nur Faza' <gofar222@gmail.com>
+        CR_KEYRING: keyring.gpg
+        CR_PASSPHRASE_FILE: passphrase-file.txt
+        CR_SIGN: true
+        CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
