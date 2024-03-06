@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  
+permissions:
+  contents: read
 
 jobs:
   release:
@@ -21,6 +24,9 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email gofar222@gmail.com
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@a917fd15b20e8b64b94d9158ad54cd6345335584
